@@ -30,3 +30,19 @@ def find_total_fuel(payload):
             total_fuel += new_fuel 
             c += 1
     return total_fuel
+
+def intcode_reader(l,pos):
+    if l[pos] == 1:
+        output = l[l[pos+1]] + l[l[pos+2]]
+    elif l[pos] == 2:
+        output = l[l[pos+1]] * l[l[pos+2]]
+    l[l[pos+3]] = output
+    return l
+
+def intcode_driver(data):
+    for ix in range(0,len(data),4):
+        if data[ix] == 99:
+            print("found end",ix)
+            break
+        data = intcode_reader(data,ix)
+    return data
