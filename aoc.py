@@ -42,7 +42,6 @@ def intcode_reader(l,pos):
 def intcode_driver(data):
     for ix in range(0,len(data),4):
         if data[ix] == 99:
-            print("found end",ix)
             break
         data = intcode_reader(data,ix)
     return data

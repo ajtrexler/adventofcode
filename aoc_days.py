@@ -5,6 +5,7 @@ Created on Fri Dec 13 13:55:28 2019
 @author: adam.trexler
 """
 import aoc
+import copy
 
 """
 Day 1:
@@ -32,7 +33,7 @@ with open("./data/day1.txt","r") as f:
         total += aoc.find_total_fuel(int(row))    
         
 """
-Day 2:
+Day 2a:
     opcode.
 """
 
@@ -43,3 +44,28 @@ data[1] = 12
 data[2] = 2
 foo = aoc.intcode_driver(data)
 foo[0]
+
+"""
+Day 2b:
+    brute force find the noun and verb
+"""
+
+with open("./data/day2.txt","r") as f:
+    data = f.read()
+data = [int(i) for i in data.split(",")]
+
+mydict = {}
+result = 0
+for n in range(1,100):
+    print(n)
+    for v in range(1,100):
+        foo = copy.deepcopy(data)
+        foo[1]=n
+        foo[2]=v
+        tmp = aoc.intcode_driver(foo)
+        mydict[(n,v)] = tmp[0]
+        if tmp[0] == 19690720:
+            print(n,v)
+            result = (n,v)
+        del(foo,tmp)
+
