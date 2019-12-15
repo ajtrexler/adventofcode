@@ -45,3 +45,37 @@ def intcode_driver(data):
             break
         data = intcode_reader(data,ix)
     return data
+
+def wire_grid_path(wirelist):
+    origin = (0,0)
+    wirepath = [origin]
+
+    for step in wirelist:
+        direction = step[0]
+        distance = int(step[1:])
+        if direction == "R":
+            pts = [(wirepath[-1][0]+(1+i),wirepath[-1][1]) for i in range(distance)]
+        elif direction == "L":
+            pts = [(wirepath[-1][0]-(1+i),wirepath[-1][1]) for i in range(distance)]
+        elif direction == "U":
+            pts = [(wirepath[-1][0],wirepath[-1][1]+(1+i)) for i in range(distance)]
+        elif direction == "D":
+            pts = [(wirepath[-1][0],wirepath[-1][1]-(1+i)) for i in range(distance)]
+        else:
+            print("invalid direction encountered.")
+        [wirepath.append(p) for p in pts]
+    return wirepath
+
+def get_wire_intersection(wire1,wire2):
+    """
+    return manhattan distance of closest intersection to origin
+    """
+    foo = list(set(wire_grid_path(wire1)).intersection(wire_grid_path(wire2)))
+    tmp = list(map(lambda x: sum([abs(f) for f in x]),foo))
+    return sorted(tmp)[1]
+
+def read_wire_list(raw_wirelist):
+    return raw_wirelist.split(",")
+    
+        
+    
