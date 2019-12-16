@@ -46,7 +46,7 @@ def intcode_driver(data):
         data = intcode_reader(data,ix)
     return data
 
-def wire_grid_path(wirelist):
+def wire_grid_path(wirelist,step_mode = False):
     origin = (0,0)
     wirepath = [origin]
 
@@ -64,15 +64,34 @@ def wire_grid_path(wirelist):
         else:
             print("invalid direction encountered.")
         [wirepath.append(p) for p in pts]
-    return wirepath
+    if step_mode == True:
+        ret = {}
+        for i,k in enumerate(wirepath):
+            if k not in ret.keys():
+                ret[k] = i
+    else:
+        ret = wirepath
+    return ret
 
-def get_wire_intersection(wire1,wire2):
+def get_wire_intersection(wire1,wire2,int_mode=False):
     """
     return manhattan distance of closest intersection to origin
     """
-    foo = list(set(wire_grid_path(wire1)).intersection(wire_grid_path(wire2)))
-    tmp = list(map(lambda x: sum([abs(f) for f in x]),foo))
-    return sorted(tmp)[1]
+    if int_mode == False:
+        foo = list(set(wire_grid_path(wire1)).intersection(wire_grid_path(wire2)))
+        tmp = list(map(lambda x: sum([abs(f) for f in x]),foo))
+        ret = sorted(tmp)[1]
+    else:
+        w1 = wire_grid_path(wire1,step_mode=True)
+        w2 = wire_grid_path(wire2,step_mode=True)
+        foo = list(set(list(w1.keys())).intersection(list(w2.keys())))
+        tmp = list(map(lambda x: sum([abs(f) for f in x]),foo))
+        derp = []
+        for k in foo:
+            derp.append(w1[k]+w2[k])
+        ret = sorted(derp)[1]
+
+    return ret
 
 def read_wire_list(raw_wirelist):
     return raw_wirelist.split(",")
