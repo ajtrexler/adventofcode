@@ -69,3 +69,40 @@ for n in range(1,100):
             result = (n,v)
         del(foo,tmp)
 
+"""
+Day 3a: get closest wire intersection to central port
+
+"""
+
+with open("./data/day3.txt","r") as f:
+    data = f.read()
+wire1 = data.split("\n")[0]
+wire2 = data.split("\n")[1]
+
+aoc.get_wire_intersection(aoc.read_wire_list(wire1),aoc.read_wire_list(wire2))
+
+"""
+Day 3b:
+    get closest by steps on wirepath, not manhattan distance.
+
+
+"""
+
+with open("./data/day3.txt","r") as f:
+    data = f.read()
+wire1 = data.split("\n")[0]
+wire2 = data.split("\n")[1]
+
+aoc.get_wire_intersection(aoc.read_wire_list(wire1),aoc.read_wire_list(wire2),int_mode=True)
+
+
+"""
+day 4a:
+    iterate over all numbers in range, identify which ones have consecutive digits, then further identify which ones never decrease
+    
+"""
+
+foo = []
+
+foo = list(map(lambda x: aoc.pw_valid(x),list(range(359282,8204010))))
+sum(foo)

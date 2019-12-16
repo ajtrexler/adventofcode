@@ -95,6 +95,26 @@ def get_wire_intersection(wire1,wire2,int_mode=False):
 
 def read_wire_list(raw_wirelist):
     return raw_wirelist.split(",")
+
+def pw_valid(pw):
+    pw = str(pw)
+    if len(pw) != 6:
+        return False
+    badval = 0
+    dupe = 0
+    for i,num in enumerate(pw):
+        if i!=len(pw)-1:
+            if num==pw[i+1]:
+                dupe = 1
+    for k,num2 in enumerate(pw):
+        if k != len(pw)-1:
+            if pw[k+1]<num2:
+                badval = 1
+    
+    if dupe == 1 and badval == 0:
+        return True
+    else:
+        return False
     
         
     
