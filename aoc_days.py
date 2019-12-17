@@ -98,11 +98,10 @@ aoc.get_wire_intersection(aoc.read_wire_list(wire1),aoc.read_wire_list(wire2),in
 
 """
 day 4a:
-    iterate over all numbers in range, identify which ones have consecutive digits, then further identify which ones never decrease
+    iterate over all numbers in range, identify which ones have consecutive digits, 
+    then further identify which ones never decrease
     
 """
-
-foo = []
 
 foo = list(map(lambda x: aoc.pw_valid(x),list(range(359282,8204010))))
 sum(foo)

@@ -115,6 +115,16 @@ def pw_valid(pw):
         return True
     else:
         return False
+
+def pw_valid_pt2(pw):
+    tmp = {}
+    for p in str(pw):
+        if p not in tmp.keys():
+            tmp[p] = 1
+        else:
+            tmp[p] += 1
+    return True if 2 in tmp.values() else False
+            
     
         
     
