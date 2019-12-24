@@ -19,7 +19,6 @@ def main():
         return pos
         
     while ix < len(data):
-        print("opcode:",data[ix])
         opcode = str(data[ix]).zfill(5) 
         instruction = opcode[-2:] #get opcode last two digits
         modes = {1:opcode[-3],
@@ -28,15 +27,13 @@ def main():
         
         if instruction == "01":
             pos = helper(data,2,ix,modes)
-            print(modes)
             output = int(pos[1]) + int(pos[2])
             data[int(data[ix+3])] = output
             step = 4
-            print(opcode,":",data[ix:ix+4],output)
         elif instruction == "02":
-            pos = helper(data,3,ix,modes)
+            pos = helper(data,2,ix,modes)
             output = int(pos[1]) * int(pos[2])
-            data[pos[3]] = output
+            data[int(data[ix+3])] = output
             step = 4
         elif instruction == "03":
             # input instruction

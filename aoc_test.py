@@ -51,6 +51,11 @@ class testAOC(unittest.TestCase):
         self.assertEqual(True,aoc.pw_valid(112233))
         self.assertEqual(True,aoc.pw_valid(123345))
         self.assertEqual(True,aoc.pw_valid(112344))
+        
+    def test_orbits(self):
+        test_nodes = ["COM)B","B)C","C)D","D)E","E)F","B)G","G)H","D)I","E)J","J)K","K)L"]
+            
+
 
         
         

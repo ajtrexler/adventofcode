@@ -6,6 +6,8 @@ Created on Fri Dec 13 13:33:49 2019
 """
 
 import math
+import networkx as nx
+
 
 def fuel_counter_upper(mass):
     """
@@ -124,7 +126,42 @@ def pw_valid_pt2(pw):
         else:
             tmp[p] += 1
     return True if 2 in tmp.values() else False
-            
+
+
+""" day 6 """
+def create_edge_list(edges):
+    """
+    convert input orbit data to list of tuples specifying 
+    nodes separated by an edge
+    """
+    ret = [tuple(e.split(")")) for e in edges]
+    return ret
+
+def calc_orbital_checksum(orbits):
+    """
+    calculate the orbital checksum from orbits, an nx 
+    undirected graph object. 
+    orbitl checksum is the total number of direct and indirect
+    orbits in the data.
+    
+    """
+    return sum([nx.shortest_path_length(orbits,node,'COM') if node != 'COM' else 0 for node in orbits.nodes])
+
+def create_orbit_graph(edges):
+    """
+    create orbits graph from input data of edges.
+    """
+    
+    udg = nx.Graph()
+    udg.add_edges_from(edges)
+    return udg      
+
+def orbital_transfer_num(orbits,n1,n2):
+    """
+    get orbital transfers to put object in orbit around n1 and n2
+    into orbit around n2.
+    """     
+    return nx.shortest_path_length(orbits,n1,n2) - 2
     
         
     
