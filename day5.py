@@ -15,7 +15,7 @@ def main():
         pos = {}
         for x in range(howmany):
             x += 1
-            pos[x] = int(data[data[ix+x]]) if modes[x] == 0 else int(data[ix+x])
+            pos[x] = int(data[int(data[ix+x])]) if modes[x] == '0' else int(data[ix+x])
         return pos
         
     while ix < len(data):
@@ -27,10 +27,12 @@ def main():
                  3:opcode[-5]}
         
         if instruction == "01":
-            pos = helper(data,3,ix,modes)
+            pos = helper(data,2,ix,modes)
+            print(modes)
             output = int(pos[1]) + int(pos[2])
-            data[pos[3]] = output
+            data[int(data[ix+3])] = output
             step = 4
+            print(opcode,":",data[ix:ix+4],output)
         elif instruction == "02":
             pos = helper(data,3,ix,modes)
             output = int(pos[1]) * int(pos[2])
@@ -39,12 +41,12 @@ def main():
         elif instruction == "03":
             # input instruction
             pos = helper(data,1,ix,modes)
-            data[pos[1]] = 1
+            data[int(data[ix+1])] = 1
             step = 2
         elif instruction == "04":
             # output instruction
             pos = helper(data,1,ix,modes)
-            print(pos[1])
+            print(ix,":",pos[1])
             step = 2
         elif instruction == "99":
             print("end found")
