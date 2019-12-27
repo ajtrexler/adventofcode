@@ -127,6 +127,84 @@ def pw_valid_pt2(pw):
             tmp[p] += 1
     return True if 2 in tmp.values() else False
 
+""" day 5 """
+def intcode_mk2(data,prog_input):
+    ix = 0 
+    def helper(data,howmany,ix,modes):
+        pos = {}
+        for x in range(howmany):
+            x += 1
+            pos[x] = int(data[int(data[ix+x])]) if modes[x] == '0' else int(data[ix+x])
+        return pos
+        
+    while ix < len(data):
+        opcode = str(data[ix]).zfill(5) 
+        instruction = opcode[-2:] #get opcode last two digits
+        modes = {1:opcode[-3],
+                 2:opcode[-4],
+                 3:opcode[-5]}
+        
+        if instruction == "01":
+            pos = helper(data,2,ix,modes)
+            output = int(pos[1]) + int(pos[2])
+            data[int(data[ix+3])] = output
+            step = 4
+        elif instruction == "02":
+            pos = helper(data,2,ix,modes)
+            output = int(pos[1]) * int(pos[2])
+            data[int(data[ix+3])] = output
+            step = 4
+        elif instruction == "03":
+            # input instruction
+            pos = helper(data,1,ix,modes)
+            data[int(data[ix+1])] = prog_input
+            step = 2
+        elif instruction == "04":
+            # output instruction
+            pos = helper(data,1,ix,modes)
+            print(ix,":",pos[1])
+            ret = pos[1]
+            step = 2
+        elif instruction == "05":
+            #jump-if-true
+            pos = helper(data,2,ix,modes)
+            if pos[1] != 0:
+                ix = pos[2]
+                step = 0
+            else:
+                step = 3
+        elif instruction == "06":
+            #jump-if-false
+            pos = helper(data,2,ix,modes)
+            if pos[1] == 0:
+                ix = pos[2]
+                step = 0
+            else:
+                step = 3
+        elif instruction == "07":
+            # less than
+            pos = helper(data,3,ix,modes)
+            if pos[1] < pos[2]:
+                data[int(data[ix+3])] = 1
+            else:
+                data[int(data[ix+3])] = 0
+            step = 4
+        elif instruction == "08":
+            # equals
+            pos = helper(data,3,ix,modes)
+            if pos[1] == pos[2]:
+                data[int(data[ix+3])] = 1 #set to data[ix+3], since no option for immediate mode.
+            else:
+                data[int(data[ix+3])] = 0
+            step = 4
+        elif instruction == "99":
+            print("end found")
+            break
+        else:
+            print("invalid opcode {x}".format(x=instruction))
+        ix += step
+    return ret
+
 
 """ day 6 """
 def create_edge_list(edges):

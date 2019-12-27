@@ -51,6 +51,24 @@ class testAOC(unittest.TestCase):
         self.assertEqual(True,aoc.pw_valid(112233))
         self.assertEqual(True,aoc.pw_valid(123345))
         self.assertEqual(True,aoc.pw_valid(112344))
+    
+    def test_intcodemk2(self):
+        jump1 = [3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9]
+        jump2 = [3,3,1105,-1,9,1101,0,0,12,4,12,99,1]
+        test1 = [3,9,8,9,10,9,4,9,99,-1,8]
+        test2 = [3,9,7,9,10,9,4,9,99,-1,8]
+        test3 = [3,3,1108,-1,8,3,4,3,99]
+        test9 = [3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,
+                1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,
+                999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99]
+        self.assertEqual(0,aoc.intcode_mk2(jump1,prog_input=0))
+        self.assertEqual(1,aoc.intcode_mk2(jump1,prog_input=5))
+        self.assertEqual(0,aoc.intcode_mk2(jump2,prog_input=0))
+        self.assertEqual(1,aoc.intcode_mk2(jump2,prog_input=5))
+        self.assertEqual(1,aoc.intcode_mk2(test1,prog_input=8))
+        self.assertEqual(0,aoc.intcode_mk2(test2,prog_input=10))
+        self.assertEqual(0,aoc.intcode_mk2(test3,prog_input=10))
+        
         
     def test_orbits(self):
         test_nodes = ["COM)B","B)C","C)D","D)E","E)F","B)G","G)H","D)I","E)J","J)K","K)L"]
