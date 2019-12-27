@@ -130,6 +130,9 @@ def pw_valid_pt2(pw):
 """ day 5 """
 def intcode_mk2(data,prog_input):
     ix = 0 
+    inpts_counter = 0
+    if not isinstance(prog_input,list):
+        prog_input = [prog_input]
     def helper(data,howmany,ix,modes):
         pos = {}
         for x in range(howmany):
@@ -157,7 +160,9 @@ def intcode_mk2(data,prog_input):
         elif instruction == "03":
             # input instruction
             pos = helper(data,1,ix,modes)
-            data[int(data[ix+1])] = prog_input
+            print(inpts_counter)
+            data[int(data[ix+1])] = prog_input[inpts_counter]
+            inpts_counter +=1
             step = 2
         elif instruction == "04":
             # output instruction
@@ -240,6 +245,28 @@ def orbital_transfer_num(orbits,n1,n2):
     into orbit around n2.
     """     
     return nx.shortest_path_length(orbits,n1,n2) - 2
+
+""" day 7 """
+def amplifier_controller(program,phase_sequence,controller_mode = "series"):
     
+    init_input = 0
+    amp_a = intcode_mk2(program,[phase_sequence[0],init_input])
+    amp_b = intcode_mk2(program,[phase_sequence[1],amp_a])
+    amp_c = intcode_mk2(program,[phase_sequence[2],amp_b])
+    amp_d = intcode_mk2(program,[phase_sequence[3],amp_c])
+    amp_e = intcode_mk2(program,[phase_sequence[4],amp_d])
+
+    if controller_mode == "series":
+        return amp_e
+    elif controller_mode == "feedback":
+        k = 0
         
+        while k<50:
+            loop_input = amp_e
+            amp_a = intcode_mk2(program,loop_input)
+            amp_b = intcode_mk2(program,amp_a)
+            amp_c = intcode_mk2(program,amp_b)
+            amp_d = intcode_mk2(program,amp_c)
+            amp_e = intcode_mk2(program,amp_d)
+        return amp_e
     

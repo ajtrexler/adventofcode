@@ -68,7 +68,16 @@ class testAOC(unittest.TestCase):
         self.assertEqual(1,aoc.intcode_mk2(test1,prog_input=8))
         self.assertEqual(0,aoc.intcode_mk2(test2,prog_input=10))
         self.assertEqual(0,aoc.intcode_mk2(test3,prog_input=10))
+    
+    def test_amplifier(self):
+        program1 = [3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0]
+        phase_seq1 = [4,3,2,1,0]
+        self.assertEqual(43210,aoc.amplifier_controller(program1,phase_seq1))
         
+        program2 = [3,23,3,24,1002,24,10,24,1002,23,-1,23,
+                    101,5,23,23,1,24,23,23,4,23,99,0,0]
+        phase_seq2 = [0,1,2,3,4]
+        self.assertEqual(54321,aoc.amplifier_controller(program2,phase_seq2))
         
     def test_orbits(self):
         test_nodes = ["COM)B","B)C","C)D","D)E","E)F","B)G","G)H","D)I","E)J","J)K","K)L"]
